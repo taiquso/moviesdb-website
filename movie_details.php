@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Details - Look4Movies</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
     <style>
         .content {
             margin: 0 20% 0 20%;
@@ -169,7 +171,7 @@
              <input type='hidden' name='note' value='$noteText'>
              <input type='hidden' name='plot' value='$plotText'>
              <input type='hidden' name='actors' value='$actorsText'>
-             <input type='text' name='my_note' id='my_note' placeholder='Note'>
+             <input type='text' name='my_note' id='my_note' placeholder='Note /10'>
              <p id='wordCount'>0/<span id='maxWords'>15</span></p>
              <textarea class='vertical-textarea' name='comment' id='comment' placeholder='Comment'></textarea>
              <button type='submit' class='btn btn-primary mb-5 btn-db'>Add to database</button>
@@ -185,6 +187,16 @@
         const wordCountDisplay = document.querySelector('#wordCount');
         const maxWords = document.querySelector('#maxWords');
         const dbBtn = document.querySelector('.btn-db');
+        const rating = document.querySelector('#my_note');
+
+        rating.addEventListener('input', function(event) {
+            const number = parseInt(event.target.value);
+            if (isNaN(number) || number < 0 || number > 10 || !Number.isInteger(number)) {
+                dbBtn.classList.add('disabled');
+            } else {
+                dbBtn.classList.remove('disabled');
+            }
+        });
 
         comment.addEventListener('input', function(event) {
             const wordCount = event.target.value.split(/\s+/).filter(function(word) {
